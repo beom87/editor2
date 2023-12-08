@@ -1,0 +1,3 @@
+interface KeyframeEffectOptions {
+    disabled?: boolean;
+}

@@ -1,0 +1,50 @@
+/* Size CSS */
+.dm-canvas .size-container {
+    position: fixed;
+    background-color: transparent;
+    pointer-events: none;
+    border: 1px solid gray;
+}
+
+.dm-canvas .size-container .size {
+    --size: 10px;
+    position: absolute;
+    pointer-events: auto;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background-color: #ff0000;
+}
+
+.dm-canvas .size-container .size.br {
+    right: calc(var(--size) * -0.5 - 1.5px);
+    bottom: calc(var(--size) * -0.5 - 1.5px);
+}
+.dm-canvas .size-container .size.bc {
+    left: calc(50% - var(--size) * 0.5);
+    bottom: calc(var(--size) * -0.5 - 1.5px);
+}
+.dm-canvas .size-container .size.rc {
+    right: calc(var(--size) * -0.5 - 1.5px);
+    top: calc(50% - var(--size) * 0.5);
+}
+
+/* Rotate CSS */
+.dm-canvas .rotate-container {
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    border: 1px solid gray;
+}
+
+.dm-canvas .rotate {
+    --size: 10px;
+    position: absolute;
+    pointer-events: auto;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background-color: #ff0000;
+    top: calc(var(--size) * -1 - 10px);
+    left: calc(50% - var(--size) * 0.5);
+}

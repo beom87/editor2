@@ -1,0 +1,16 @@
+.dm-canvas .object {
+    --border-width: 3px;
+    display: block;
+    position: absolute;
+    border: var(--border-width) solid transparent;
+    overflow: hidden;
+    border-radius: var(--border-width);
+}
+
+.dm-canvas .object.focus {
+    border: var(--border-width) solid crimson;
+}
+
+.dm-canvas .object p:focus-visible {
+    outline: none;
+}

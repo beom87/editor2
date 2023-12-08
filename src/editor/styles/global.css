@@ -1,0 +1,7 @@
+.dm-canvas * {
+    box-sizing: content-box;
+}
+
+.dm-canvas .cursor-move {
+    cursor: move;
+}
