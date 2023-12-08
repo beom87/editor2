@@ -55,7 +55,8 @@ export default class Editor {
 
     on = (name: TEventNames, fn: (data?: unknown) => void) => this.EE.on(name, fn);
     off = (name: TEventNames, fn: (data?: unknown) => void) => this.EE.off(name, fn);
-    getObjects = () => Array.from(this.canvas?.children ?? []) as DMObject[];
+    getObjects = () =>
+        Array.from(this.canvas?.children ?? []).filter((element) => element instanceof DMObject) as DMObject[];
     getEffects = () => {
         const children = this.getObjects();
         const effects = children.map((child) => child.__effect);
@@ -65,6 +66,16 @@ export default class Editor {
         this.activeObjects.forEach((object) => (object.__focus = false));
         this.activeObjects = [];
     };
+
+    toData = () => {
+        const elements = this.getObjects().map((object) => object?.__toData?.());
+        return { elements };
+    };
+    toJSON = () => JSON.stringify(this.toData());
+
+    loadFromJSON(json: string) {
+        const parseData = JSON.stringify(json);
+    }
 
     private _loadModels = () => {
         for (const key in models) {

@@ -9,6 +9,12 @@ import spriteSrc from '../assets/images/sprite/SI001.png?url';
 export default function Toolbar() {
     const editor = useAtomValue(editorAtom);
 
+    const onSaveClick = () => {
+        const data = editor?.toJSON();
+        window.localStorage.setItem('DMEditor', data ?? '');
+    };
+    const onLoadClick = () => {};
+
     const onTextClick = () => {
         const textbox = new Textbox();
         editor?.add(textbox);
@@ -41,6 +47,12 @@ export default function Toolbar() {
     return (
         <>
             <div>
+                <button className='border' onClick={onSaveClick}>
+                    SAVE
+                </button>
+                <button className='border' onClick={onLoadClick}>
+                    LOAD
+                </button>
                 <button className='border' onClick={onTextClick}>
                     TEXT
                 </button>

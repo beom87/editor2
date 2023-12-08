@@ -27,6 +27,12 @@ export default class DMRect extends DMObject {
         svg.appendChild(path);
 
         this.prepend(svg);
+
+        const toData = this.__toData;
+        this.__toData = () => {
+            const data = toData.call(this);
+            return { ...data, customAdd: 'data' };
+        };
     }
 
     /** 사이즈 조절에 따른 path data 업데이트 */
@@ -36,9 +42,5 @@ export default class DMRect extends DMObject {
             const target = this.querySelector('path');
             target?.setAttributeNS(null, 'd', getPathOf.rect({ width, height, padding: 0.5 }));
         });
-    }
-
-    __toData() {
-        return { type: 'rect', id: this.id, cssText: this.style.cssText };
     }
 }

@@ -12,8 +12,6 @@ export default class DMObject extends HTMLElement {
     /** DMObject를 상속받은 object가 editor를 등록한다 */
     __editor?: Editor;
 
-    __toData() {}
-
     constructor() {
         super();
         this.id = createId();
@@ -41,5 +39,9 @@ export default class DMObject extends HTMLElement {
             this.__interaction.removeRotate();
             this.__interaction.removeSize();
         }
+    }
+
+    __toData() {
+        return { type: this.__type, id: this.id, cssText: this.style.cssText };
     }
 }
