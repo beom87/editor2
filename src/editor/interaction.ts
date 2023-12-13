@@ -6,7 +6,7 @@ export default class Interaction {
     element;
     sizeContainer;
     rotateContainer;
-    removeDrag = () => {};
+    removeDrag = () => { };
 
     disabledDrag = false;
     disableSize = false;
@@ -199,12 +199,13 @@ export default class Interaction {
     }
     private _sizeContainerResize() {
         const bcr = this.element.getBoundingClientRect();
+    
         applyStyle(this.sizeContainer, {
-            top: bcr.top + 'px',
-            left: bcr.left + 'px',
+            top: bcr.top.toFixed(0) + 'px',
+            left: bcr.left.toFixed(0) + 'px',
             /** focus border width 만큼 뺌 */
-            width: bcr.width - 6 + 'px',
-            height: bcr.height - 6 + 'px'
+            width: (bcr.width - 6).toFixed(0) + 'px',
+            height: (bcr.height - 6).toFixed(0) + 'px'
         });
     }
     private _rotateContainerResize() {

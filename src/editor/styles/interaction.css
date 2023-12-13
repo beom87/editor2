@@ -3,7 +3,7 @@
     position: fixed;
     background-color: transparent;
     pointer-events: none;
-    border: 1px solid gray;
+    border: var(--border-width) solid gray;
 }
 
 .dm-canvas .size-container .size {
@@ -34,7 +34,7 @@
     position: absolute;
     background-color: transparent;
     pointer-events: none;
-    border: 1px solid gray;
+    border: var(--border-width) solid gray;
 }
 
 .dm-canvas .rotate {

@@ -1,4 +1,5 @@
 type TObjectOptions = {
+    id?: string;
     style?: { [key in keyof CSSStyleDeclaration]?: string };
 };
 

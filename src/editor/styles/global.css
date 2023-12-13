@@ -1,5 +1,7 @@
 .dm-canvas * {
+    --border-width: 3px;
     box-sizing: content-box;
+    user-select: none;
 }
 
 .dm-canvas .cursor-move {

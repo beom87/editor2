@@ -6,6 +6,7 @@ import { createId } from './utils/helper';
 import { applyStyle } from './utils/element';
 
 import './styles';
+import DMAnimation from './animations/animation';
 
 export default class Editor {
     id;
@@ -68,13 +69,38 @@ export default class Editor {
     };
 
     toData = () => {
-        const elements = this.getObjects().map((object) => object?.__toData?.());
-        return { elements };
+        const objects = this.getObjects().map((object) => object?.__toData?.());
+        return { objects };
     };
     toJSON = () => JSON.stringify(this.toData());
 
     loadFromJSON(json: string) {
         const parseData = JSON.stringify(json);
+    }
+    loadFromData(data: any) {
+
+        data.objects?.forEach((object: any) => {
+            const type = object.type;
+            let obj: DMObject | null = null;
+            switch (type) {
+                case 'rect':
+                    obj = new models.Rect(object);
+                    break;
+                case 'textbox':
+                    obj = new models.Textbox(object);
+                    break;
+                case 'image':
+                    obj = new models.Image(object);
+                    break;
+                default:
+                    break;
+            }
+
+            if (obj) {
+                this.add(obj);
+                object.animations?.forEach((animation: DMAnimation) => obj!.__effect.add(animation));
+            }
+        })
     }
 
     private _loadModels = () => {

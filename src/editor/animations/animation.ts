@@ -7,8 +7,14 @@ export default class DMAnimation {
     keyframes: Keyframe[] = [];
     targetId = '';
 
-    constructor(config?: { id?: string }) {
-        this.id = config?.id ?? createId();
+    constructor(config: { id?: string, targetId: string }) {
+        this.id = config.id ?? createId();
+        this.targetId = config.targetId ?? ''
+    }
+    create() {
+        const target = document.getElementById(this.targetId);
+        const keyframe = new KeyframeEffect(target, this.keyframes, this.options);
+        return new Animation(keyframe, document.timeline);
     }
     disable() {
         this.options = { ...this.options, disabled: true };
@@ -16,6 +22,7 @@ export default class DMAnimation {
     enable() {
         if ('disabled' in this.options) delete this.options.disabled;
     }
+
     updateOptions(options: Partial<KeyframeEffectOptions>) {
         for (const key in options) {
             if (Object.prototype.hasOwnProperty.call(options, key)) {

@@ -1,6 +1,6 @@
 import { useAtomValue } from 'jotai';
 import { editorAtom } from '../atoms';
-import { Circle, Image, Rect, Sprite } from '../editor/objects';
+import { Image, Rect, Sprite } from '../editor/objects';
 import Textbox from '../editor/objects/models/textbox';
 
 import imageSrc from '../assets/images/basic/BI001.png?url';
@@ -12,8 +12,13 @@ export default function Toolbar() {
     const onSaveClick = () => {
         const data = editor?.toJSON();
         window.localStorage.setItem('DMEditor', data ?? '');
+        console.log(data);
     };
-    const onLoadClick = () => {};
+    const onLoadClick = () => {
+        const data = window.localStorage.getItem('DMEditor') ?? '{}';
+        console.log(JSON.parse(data));
+        editor?.loadFromData(JSON.parse(data));
+    };
 
     const onTextClick = () => {
         const textbox = new Textbox();
@@ -33,10 +38,7 @@ export default function Toolbar() {
         editor?.add(rect);
     };
 
-    const onCircleClick = () => {
-        const circle = new Circle();
-        editor?.add(circle);
-    };
+
     const onTextStyleClick = () => {
         const activeObject = editor?.activeObjects?.[0];
         if (activeObject instanceof Textbox) {
@@ -65,9 +67,7 @@ export default function Toolbar() {
                 <button className='border' onClick={onRectClick}>
                     RECT
                 </button>
-                <button className='border' onClick={onCircleClick}>
-                    CIRCLE
-                </button>
+           
             </div>
             <div>
                 <button className='border' onClick={onTextStyleClick}>

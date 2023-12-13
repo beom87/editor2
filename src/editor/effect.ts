@@ -11,11 +11,14 @@ export default class Effect {
         this.id = id;
     }
     add(animation: DMAnimation) {
-        animation.targetId ||= this.id;
         this._animations.push(animation);
     }
     remove(id: string) {
         this._animations = this._animations.filter((animation) => animation.id !== id);
+    }
+    /** 애니메이션 모두 삭제 */
+    removeAll() {
+        this._animations = [];
     }
 
     /** 애니메이션 객체 생성 */
@@ -24,11 +27,7 @@ export default class Effect {
         this._anims = this.getAnimations()
             .filter((animation) => !animation.options.disabled)
             .sort((a, b) => (a.options.delay ?? 0) - (b.options.delay ?? 0))
-            .map((animation) => {
-                const target = document.getElementById(animation.targetId);
-                const keyframe = new KeyframeEffect(target, animation.keyframes, animation.options);
-                return new Animation(keyframe, document.timeline);
-            });
+            .map((animation) => animation.create());
 
         return Promise.all(this._anims.map((anim) => anim.ready));
     }

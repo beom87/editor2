@@ -5,9 +5,14 @@ export default class DMTextbox extends DMObject {
     static __name = 'dm-textbox';
     __type = 'textbox';
 
+    readonly defaultStyleOptions: ITextboxOptions['style'] = {
+        width: '100px',
+        height: '32px'
+    };
+
     constructor(options?: ITextboxOptions) {
-        super();
-        applyStyle(this, { ...options?.style });
+        super(options?.id);
+        applyStyle(this, { ...this.defaultStyleOptions, ...options?.style });
         const paragraph = document.createElement('p');
         paragraph.innerHTML = options?.text ?? 'TEXT';
 
@@ -17,6 +22,12 @@ export default class DMTextbox extends DMObject {
         paragraph.addEventListener('blur', () => this.__setEditeMode(false));
 
         this.prepend(paragraph);
+
+        const toData = this.__toData;
+        this.__toData = () => {
+            const data = toData.call(this);
+            return { ...data, text: paragraph.innerHTML };
+        };
     }
 
     __setEditeMode(editeMode: boolean) {

@@ -12,9 +12,9 @@ export default class DMObject extends HTMLElement {
     /** DMObject를 상속받은 object가 editor를 등록한다 */
     __editor?: Editor;
 
-    constructor() {
+    constructor(id?: string) {
         super();
-        this.id = createId();
+        this.id = id ?? createId();
         this.__effect = new Effect(this.id);
         this.__interaction = new Interaction(this);
 
@@ -42,6 +42,6 @@ export default class DMObject extends HTMLElement {
     }
 
     __toData() {
-        return { type: this.__type, id: this.id, cssText: this.style.cssText };
+        return { type: this.__type, id: this.id, style: { cssText: this.style.cssText }, animations: this.__effect.getAnimations() };
     }
 }

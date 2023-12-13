@@ -1,5 +1,4 @@
 .dm-canvas .object {
-    --border-width: 3px;
     display: block;
     position: absolute;
     border: var(--border-width) solid transparent;
