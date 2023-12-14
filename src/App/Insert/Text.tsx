@@ -1,12 +1,15 @@
-import { Button, Title } from './Insert.styles';
+import { Button } from './Insert.styles';
+import ListItem from './components/ListItem';
 
 export default function Text() {
+
     return (
-        <>
-            <Title>TEXT</Title>
+
+        <ListItem title='TEXT'>
             <div>
-                <Button>TEXT BOX</Button>
+                <Button>Textbox</Button>
             </div>
-        </>
+        </ListItem>
+
     );
 }

@@ -1,13 +1,13 @@
-import { Button, Title } from './Insert.styles';
+import { Button } from './Insert.styles';
+import ListItem from './components/ListItem';
 
 export default function Shapes() {
     return (
-        <>
-            <Title>SHAPES</Title>
+        <ListItem title='SHAPES'>
             <div className='flex gap-x-1'>
-                <Button>LINE</Button>
                 <Button>RECT</Button>
+                <Button>PARALLELOGRAM</Button>
             </div>
-        </>
+        </ListItem>
     );
 }

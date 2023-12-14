@@ -1,7 +1,6 @@
-import DMParallelogram from './objects/models/parallelogram';
 import DMObject from './objects/object';
 import { applyAttributeNS, applyStyle, createSVGElement } from './utils/element';
-import { getPathOf, pxToNumber } from './utils/helper';
+import { pxToNumber } from './utils/helper';
 
 type TInteractionPlacement = 'top' | 'left' | 'bottom' | 'right';
 type TInteractionMeditation = {
@@ -16,7 +15,6 @@ export default class Interaction {
     sizeContainer;
     rotateContainer;
     removeDrag = () => {};
-    removeMeditation = () => {};
 
     disabledDrag = false;
     disableSize = false;
@@ -199,9 +197,7 @@ export default class Interaction {
     }
     /** Meditation */
     addMeditation({ name = 'meditation', defaultMeditation, placement = 'top', onChange }: TInteractionMeditation) {
-        this.removeMeditation();
         const svg = this.element.querySelector('svg');
-        console.log(svg);
         if (!svg) return;
 
         const circle = createSVGElement('circle');
@@ -253,11 +249,10 @@ export default class Interaction {
         };
 
         init();
+
         circle.addEventListener('pointerdown', pointerdown);
 
         svg.appendChild(circle);
-
-        this.removeMeditation = () => this.element.removeEventListener('pointerdown', pointerdown);
     }
 
     active(active: boolean) {

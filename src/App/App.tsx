@@ -10,7 +10,7 @@ function App() {
                 <Toolbar />
             </header>
             <main className='flex gap-x-2'>
-                {/* <Insert /> */}
+                <Insert />
                 <View />
                 <div className='flex-1'>
                     <Animation />

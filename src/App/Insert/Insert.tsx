@@ -6,14 +6,12 @@ import Text from './Text';
 export default function Insert() {
     return (
         <div>
-            <Typography className='drop-shadow' variant='h5' color='primary'>
+            <Typography className='drop-shadow' variant='h5' color='primary' align='center'>
                 DM-OBJECTS
             </Typography>
-            <div className='border-t my-1'></div>
+            <div className='border-t my-1'></div>          
             <Text />
-            <div className='border-t my-1'></div>
             <Image />
-            <div className='border-t my-1'></div>
             <Shapes />
         </div>
     );
