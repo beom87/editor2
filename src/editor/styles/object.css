@@ -13,3 +13,11 @@
 .dm-canvas .object p:focus-visible {
     outline: none;
 }
+
+.dm-canvas dm-textbox {
+    user-select: auto;
+}
+
+.dm-canvas dm-textbox * {
+    user-select: auto;
+}

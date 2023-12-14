@@ -1,4 +1,4 @@
-import DMObject from './objects/models/object';
+import DMObject from './objects/object';
 import { applyStyle } from './utils/element';
 import { pxToNumber } from './utils/helper';
 

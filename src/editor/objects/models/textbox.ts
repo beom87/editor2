@@ -1,5 +1,6 @@
+import { Textbox } from '..';
 import { applyStyle } from '../../utils/element';
-import DMObject from './object';
+import DMObject from '../object';
 
 export default class DMTextbox extends DMObject {
     static __name = 'dm-textbox';
@@ -12,16 +13,16 @@ export default class DMTextbox extends DMObject {
 
     constructor(options?: ITextboxOptions) {
         super(options?.id);
-        applyStyle(this, { ...this.defaultStyleOptions, ...options?.style });
         const paragraph = document.createElement('p');
         paragraph.innerHTML = options?.text ?? 'TEXT';
 
+        applyStyle(this, { ...this.defaultStyleOptions, ...options?.style });
         applyStyle(paragraph, { wordBreak: 'break-all', whiteSpace: 'pre-wrap' });
 
         this.addEventListener('dblclick', () => this.__setEditeMode(true));
         paragraph.addEventListener('blur', () => this.__setEditeMode(false));
 
-        this.prepend(paragraph);
+        this.appendChild(paragraph);
 
         const toData = this.__toData;
         this.__toData = () => {
@@ -44,15 +45,17 @@ export default class DMTextbox extends DMObject {
     }
 
     __setTextStyle(cssStyle: { [key in keyof CSSStyleDeclaration]?: string }) {
+        console.log(this);
         const paragraph = this.querySelector('p');
         const selection = document.getSelection();
         if (!paragraph || !selection) return;
 
         const span = applyStyle(document.createElement('span'), cssStyle);
+        console.log(selection);
         const range = selection.getRangeAt(0);
 
         const selectedContent = range.extractContents();
-
+        console.log(selectedContent.textContent);
         if (!selectedContent.textContent) {
             applyStyle(this, cssStyle);
             paragraph.querySelectorAll('span').forEach((s) => applyStyle(s, cssStyle, { value: 'inherit' }));

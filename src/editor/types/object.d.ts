@@ -13,7 +13,7 @@ interface IImageOptions extends TObjectOptions {
     onLoad?: () => void;
 }
 interface ISpriteOptions extends TObjectOptions {
-    src: string;
+    src?: string;
     frameCount: string;
     originWidth?: string;
     originHeight?: string;
