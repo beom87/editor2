@@ -1,6 +1,6 @@
 import { useAtomValue } from 'jotai';
 import { editorAtom } from '../../atoms';
-import { Image, Rect, Sprite } from '../../editor/objects';
+import { Image, Parallelogram, Rect, Sprite } from '../../editor/objects';
 import Textbox from '../../editor/objects/models/textbox';
 
 import imageSrc from '../../assets/images/basic/BI001.png?url';
@@ -38,6 +38,10 @@ export default function Toolbar() {
         editor?.add(rect);
     };
 
+    const onParallelogramClick = () => {
+        const parallelogram = new Parallelogram();
+        editor?.add(parallelogram);
+    };
 
     const onTextStyleClick = () => {
         const activeObject = editor?.activeObjects?.[0];
@@ -67,7 +71,9 @@ export default function Toolbar() {
                 <button className='border' onClick={onRectClick}>
                     RECT
                 </button>
-           
+                <button className='border' onClick={onParallelogramClick}>
+                    PARALLEOLOGRAM
+                </button>
             </div>
             <div>
                 <button className='border' onClick={onTextStyleClick}>

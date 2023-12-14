@@ -4,7 +4,9 @@ type TObjectOptions = {
 };
 
 interface IRectOptions extends TObjectOptions {}
-
+interface IParallelogramOptions extends TObjectOptions {
+    meditation: number;
+}
 interface ITextboxOptions extends TObjectOptions {
     text: string;
 }

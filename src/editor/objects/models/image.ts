@@ -20,8 +20,8 @@ export default class DMImage extends DMObject {
 
         image.onload = () => {
             options?.onLoad?.();
-            this.style.width = image.width + 'px';
-            this.style.height = image.height + 'px';
+            if (!this.style.width) this.style.width = this.offsetWidth + 'px';
+            if (!this.style.height) this.style.height = this.offsetHeight + 'px';
         };
 
         this.appendChild(image);

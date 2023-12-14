@@ -1,12 +1,22 @@
+import DMParallelogram from './objects/models/parallelogram';
 import DMObject from './objects/object';
-import { applyStyle } from './utils/element';
-import { pxToNumber } from './utils/helper';
+import { applyAttributeNS, applyStyle, createSVGElement } from './utils/element';
+import { getPathOf, pxToNumber } from './utils/helper';
+
+type TInteractionPlacement = 'top' | 'left' | 'bottom' | 'right';
+type TInteractionMeditation = {
+    defaultMeditation: number;
+    name?: string;
+    placement?: TInteractionPlacement;
+    onChange?: ({ meditation, subMeditation }: { meditation: number; subMeditation?: number }) => void;
+};
 
 export default class Interaction {
     element;
     sizeContainer;
     rotateContainer;
-    removeDrag = () => { };
+    removeDrag = () => {};
+    removeMeditation = () => {};
 
     disabledDrag = false;
     disableSize = false;
@@ -187,6 +197,67 @@ export default class Interaction {
     removeRotate() {
         this.rotateContainer.remove();
     }
+    /** Meditation */
+    addMeditation({ name = 'meditation', defaultMeditation, placement = 'top', onChange }: TInteractionMeditation) {
+        this.removeMeditation();
+        const svg = this.element.querySelector('svg');
+        if (!svg) return;
+
+        const circle = createSVGElement('circle');
+        const origin = { x: 0, y: 0 };
+        const isHorizontal = ['top', 'bottom'].includes(placement);
+        const cx = isHorizontal ? defaultMeditation.toString() : placement === 'left' ? '0' : '100%';
+        const cy = isHorizontal ? (placement === 'top' ? '0' : '100%') : defaultMeditation.toString();
+        const shape = this.element.querySelector('path');
+
+        let meditation = 0;
+
+        applyAttributeNS(circle, { cx, cy, r: '5', fill: 'red' });
+
+        const pointermove = (e: PointerEvent) => {
+            if (!shape) return;
+            const dist = isHorizontal ? e.clientX - origin.x : e.clientY - origin.y;
+            const originMeditation = this.element.__getData(name) ?? 0;
+
+            const width = Math.max(parseInt(this.element.style.width ?? 0) - 4, 0);
+            const height = Math.max(parseInt(this.element.style.height ?? 0) - 4, 0);
+            const meditationMax = isHorizontal ? width : height;
+
+            meditation = Math.min(Math.max(0, Number((originMeditation + dist).toFixed(0))), meditationMax);
+
+            if (isHorizontal) applyAttributeNS(circle, { cx: meditation.toString() });
+            else applyAttributeNS(circle, { cy: meditation.toString() });
+
+            onChange?.({ meditation });
+        };
+        const pointerup = () => {
+            init();
+            document.removeEventListener('pointermove', pointermove);
+            document.removeEventListener('pointerup', pointerup);
+        };
+
+        const pointerdown = (e: PointerEvent) => {
+            e.stopImmediatePropagation();
+
+            origin.x = e.clientX;
+            origin.y = e.clientY;
+
+            document.addEventListener('pointermove', pointermove);
+            document.addEventListener('pointerup', pointerup);
+        };
+
+        const init = () => {
+            this.element.__setData({ [name]: meditation });
+            meditation = 0;
+        };
+
+        init();
+        circle.addEventListener('pointerdown', pointerdown);
+
+        svg.appendChild(circle);
+
+        this.removeMeditation = () => this.element.removeEventListener('pointerdown', pointerdown);
+    }
 
     active(active: boolean) {
         if (active) {
@@ -199,13 +270,12 @@ export default class Interaction {
     }
     private _sizeContainerResize() {
         const bcr = this.element.getBoundingClientRect();
-    
+
         applyStyle(this.sizeContainer, {
             top: bcr.top.toFixed(0) + 'px',
             left: bcr.left.toFixed(0) + 'px',
-            /** focus border width 만큼 뺌 */
-            width: (bcr.width - 6).toFixed(0) + 'px',
-            height: (bcr.height - 6).toFixed(0) + 'px'
+            width: bcr.width.toFixed(0) + 'px',
+            height: bcr.height.toFixed(0) + 'px'
         });
     }
     private _rotateContainerResize() {

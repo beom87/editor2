@@ -1,4 +1,3 @@
-import { Textbox } from '..';
 import { applyStyle } from '../../utils/element';
 import DMObject from '../object';
 
@@ -45,17 +44,14 @@ export default class DMTextbox extends DMObject {
     }
 
     __setTextStyle(cssStyle: { [key in keyof CSSStyleDeclaration]?: string }) {
-        console.log(this);
         const paragraph = this.querySelector('p');
         const selection = document.getSelection();
         if (!paragraph || !selection) return;
 
         const span = applyStyle(document.createElement('span'), cssStyle);
-        console.log(selection);
         const range = selection.getRangeAt(0);
 
         const selectedContent = range.extractContents();
-        console.log(selectedContent.textContent);
         if (!selectedContent.textContent) {
             applyStyle(this, cssStyle);
             paragraph.querySelectorAll('span').forEach((s) => applyStyle(s, cssStyle, { value: 'inherit' }));

@@ -1,1 +1,1 @@
-type TGetPathOf = { width: number; height: number; padding: number };
+type TGetPathOf = { width: number; height: number; padding?: number };

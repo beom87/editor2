@@ -2,11 +2,11 @@ import { applyAttributeNS, applyStyle, createSVGElement } from '../../utils/elem
 import { getPathOf } from '../../utils/helper';
 import DMObject from '../object';
 
-export default class DMRect extends DMObject {
-    static __name = 'dm-rect';
-    __type = 'rect';
+export default class DMParallelogram extends DMObject {
+    static __name = 'dm-parallelogram';
+    __type = 'parallelogram';
 
-    readonly defaultStyleOptions: IRectOptions['style'] = {
+    readonly defaultStyleOptions: IParallelogramOptions['style'] = {
         width: '300px',
         height: '150px',
         stroke: '#000000',
@@ -15,7 +15,7 @@ export default class DMRect extends DMObject {
         overflow: 'visible'
     };
 
-    constructor(options?: IRectOptions) {
+    constructor(options?: IParallelogramOptions) {
         super(options?.id);
 
         const svg = createSVGElement('svg');
@@ -28,6 +28,17 @@ export default class DMRect extends DMObject {
         svg.appendChild(path);
 
         this.appendChild(svg);
+
+        this.__interaction.addMeditation({
+            name: 'meditation',
+            defaultMeditation: options?.meditation ?? 0,
+            onChange: ({ meditation }) => {
+                const target = this.querySelector('path');
+                const width = Math.max(parseInt(this.style.width ?? 0) - 4, 0);
+                const height = Math.max(parseInt(this.style.height ?? 0) - 4, 0);
+                target?.setAttributeNS(null, 'd', getPathOf.parallelogram({ width, height, meditation }));
+            }
+        });
     }
 
     /** 사이즈 조절에 따른 path data 업데이트 */
@@ -35,7 +46,8 @@ export default class DMRect extends DMObject {
         entries.forEach((entry) => {
             const { width, height } = entry.contentRect;
             const target = this.querySelector('path');
-            target?.setAttributeNS(null, 'd', getPathOf.rect({ width, height, padding: 0.5 }));
+            const meditation = this.__getData('meditation');
+            target?.setAttributeNS(null, 'd', getPathOf.parallelogram({ width, height, meditation }));
         });
     }
 }

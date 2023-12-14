@@ -1,6 +1,6 @@
 .dm-canvas * {
-    --border-width: 3px;
-    box-sizing: content-box;
+    --border-width: 2px;
+    box-sizing: border-box;
     user-select: none;
 }
 

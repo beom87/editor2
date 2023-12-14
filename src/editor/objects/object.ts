@@ -12,6 +12,8 @@ export default class DMObject extends HTMLElement {
     /** core에서 object를 등록할 때 함께 등록한다. */
     __editor?: Editor;
 
+    private ___data: { [key: string]: any } = {};
+
     constructor(id?: string) {
         super();
         this.id = id ?? createId();
@@ -40,6 +42,10 @@ export default class DMObject extends HTMLElement {
             this.__interaction.removeSize();
         }
     }
+    __setData(data: { [key: string]: any }) {
+        this.___data = { ...this.___data, ...data };
+    }
+    __getData = (key?: string) => (key ? this.___data[key] : this.___data);
 
     __toData = () => ({
         type: this.__type,
