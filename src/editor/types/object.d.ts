@@ -4,7 +4,9 @@ type TObjectOptions = {
 };
 
 interface IRectOptions extends TObjectOptions {}
-
+interface IParallelogramOptions extends TObjectOptions {
+    meditation: number;
+}
 interface ITextboxOptions extends TObjectOptions {
     text: string;
 }
@@ -13,7 +15,7 @@ interface IImageOptions extends TObjectOptions {
     onLoad?: () => void;
 }
 interface ISpriteOptions extends TObjectOptions {
-    src: string;
+    src?: string;
     frameCount: string;
     originWidth?: string;
     originHeight?: string;

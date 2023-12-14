@@ -1,3 +1,4 @@
+/* OBJECT */
 .dm-canvas .object {
     display: block;
     position: absolute;
@@ -5,11 +6,20 @@
     overflow: hidden;
     border-radius: var(--border-width);
 }
-
+/* FOCUS */
 .dm-canvas .object.focus {
     border: var(--border-width) solid crimson;
 }
 
 .dm-canvas .object p:focus-visible {
     outline: none;
+}
+
+/* TEXTBOX */
+.dm-canvas dm-textbox {
+    user-select: auto;
+}
+
+.dm-canvas dm-textbox * {
+    user-select: auto;
 }

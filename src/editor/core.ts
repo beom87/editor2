@@ -1,12 +1,12 @@
-import { EventEmitter } from './events';
-import DMObject from './objects/models/object';
+import * as dmObjects from './objects';
+import * as dmAnimations from './animations';
 
-import * as models from './objects';
+import { EventEmitter } from './events';
+import DMObject from './objects/object';
 import { createId } from './utils/helper';
 import { applyStyle } from './utils/element';
 
 import './styles';
-import DMAnimation from './animations/animation';
 
 export default class Editor {
     id;
@@ -19,7 +19,7 @@ export default class Editor {
         if (element) this.injectCanvas(element);
 
         this.EE = new EventEmitter<TEventNames>();
-        this._loadModels();
+        this._loadObjectModels();
 
         this.EE.on<DMObject[]>('object:active', (objects) => {
             if (!objects) return;
@@ -76,37 +76,70 @@ export default class Editor {
 
     loadFromJSON(json: string) {
         const parseData = JSON.stringify(json);
+        this.loadFromData(parseData);
     }
     loadFromData(data: any) {
+        data.objects?.forEach((options: any) => {
+            const object = this._loadObject(options);
 
-        data.objects?.forEach((object: any) => {
-            const type = object.type;
-            let obj: DMObject | null = null;
-            switch (type) {
-                case 'rect':
-                    obj = new models.Rect(object);
-                    break;
-                case 'textbox':
-                    obj = new models.Textbox(object);
-                    break;
-                case 'image':
-                    obj = new models.Image(object);
-                    break;
-                default:
-                    break;
-            }
-
-            if (obj) {
-                this.add(obj);
-                object.animations?.forEach((animation: DMAnimation) => obj!.__effect.add(animation));
-            }
-        })
+            options.animations?.forEach((animation: any) => {
+                const anim = this._loadAnimations(animation);
+                if (object && anim) object.__effect.add(anim);
+            });
+        });
     }
 
-    private _loadModels = () => {
-        for (const key in models) {
-            if (Object.prototype.hasOwnProperty.call(models, key)) {
-                const CustomElement = models[key as keyof typeof models];
+    private _loadObject = (options: any) => {
+        const type = options.type;
+        let obj: DMObject | null = null;
+        switch (type) {
+            case 'rect':
+                obj = new dmObjects.Rect(options);
+                break;
+            case 'textbox':
+                obj = new dmObjects.Textbox(options);
+                break;
+            case 'image':
+                obj = new dmObjects.Image(options);
+                break;
+            case 'sprite':
+                obj = new dmObjects.Sprite(options);
+                break;
+            default:
+                break;
+        }
+        if (!obj) return;
+        this.add(obj);
+        return obj;
+    };
+
+    private _loadAnimations = (animation: any) => {
+        const type = animation.type;
+        let anim;
+        switch (type) {
+            case 'fadeIn':
+                anim = new dmAnimations.FadeIn(animation);
+                break;
+            case 'fadeOut':
+                anim = new dmAnimations.FadeOut(animation);
+                break;
+            case 'sprite':
+                anim = new dmAnimations.Sprite(animation);
+                break;
+            default:
+                break;
+        }
+        if (!anim) return;
+        anim.updateKeyframes(animation.keyframes);
+        anim.updateOptions(animation.options);
+
+        return anim;
+    };
+
+    private _loadObjectModels = () => {
+        for (const key in dmObjects) {
+            if (Object.prototype.hasOwnProperty.call(dmObjects, key)) {
+                const CustomElement = dmObjects[key as keyof typeof dmObjects];
                 const name = CustomElement.__name;
                 if (!customElements.get(name)) customElements.define(name, CustomElement);
             }

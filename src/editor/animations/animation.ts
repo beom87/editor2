@@ -6,10 +6,11 @@ export default class DMAnimation {
     options: KeyframeEffectOptions = { duration: 1000, delay: 0, easing: 'linear', fill: 'forwards' };
     keyframes: Keyframe[] = [];
     targetId = '';
+    type = '';
 
-    constructor(config: { id?: string, targetId: string }) {
+    constructor(config: { id?: string; targetId: string }) {
         this.id = config.id ?? createId();
-        this.targetId = config.targetId ?? ''
+        this.targetId = config.targetId ?? '';
     }
     create() {
         const target = document.getElementById(this.targetId);
@@ -35,5 +36,4 @@ export default class DMAnimation {
     updateKeyframes(keyframes: Keyframe[]) {
         this.keyframes = keyframes;
     }
-    toData = () => ({ id: this.id, keyframes: this.keyframes, options: this.options });
 }

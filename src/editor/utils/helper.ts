@@ -1,4 +1,4 @@
-import { degreeToRadian, radianToDegree } from './number';
+import { degreeToRadian } from './number';
 import { generateCharacter } from './string';
 
 /** element.style px을 number로 변환하는 함수 */
@@ -6,14 +6,14 @@ export const pxToNumber = (px: string) => px.split(' ').map((s) => Number(s.repl
 
 /** 도형의 path data를 return하는 함수 */
 export const getPathOf = {
-    rect: ({ width, height, padding }: TGetPathOf) => {
+    rect: ({ width, height, padding = 0.5 }: TGetPathOf) => {
         const tl = { x: padding, y: padding };
         const bl = { x: padding, y: height - padding };
         const br = { x: width - padding, y: height - padding };
         const tr = { x: width - padding, y: padding };
 
         return `M${tl.x},${tl.y} L${bl.x},${bl.y} L${br.x},${br.y} L${tr.x},${tr.y}z`;
-    }
+    },
     // curve: ({ width, height, padding }: TGetPathOf) => {
     //     const start = { x: padding, y: height - padding };
     //     const mid = { x: width / 2, y: -height + padding * 3 };
@@ -49,14 +49,14 @@ export const getPathOf = {
 
     //     return `M${tc.x}, ${tc.y} L${lc.x}, ${lc.y} L${bc.x}, ${bc.y} L${rc.x}, ${rc.y}z`;
     // },
-    // parallelogram: ({ width, height, padding, meditation }: TGetPathOf & { meditation: number }) => {
-    //     const tl = { x: meditation + padding, y: padding };
-    //     const bl = { x: padding, y: height - 2 - padding };
-    //     const br = { x: width - meditation - padding, y: height - 2 - padding };
-    //     const tr = { x: width - padding, y: padding };
+    parallelogram: ({ width, height, padding = 0.5, meditation }: TGetPathOf & { meditation: number }) => {
+        const tl = { x: meditation + padding, y: padding };
+        const bl = { x: padding, y: height - padding };
+        const br = { x: width - meditation - padding, y: height - padding };
+        const tr = { x: width - padding, y: padding };
 
-    //     return `M${tl.x}, ${tl.y} L${bl.x}, ${bl.y} L${br.x}, ${br.y} L${tr.x}, ${tr.y}z`;
-    // },
+        return `M${tl.x}, ${tl.y} L${bl.x}, ${bl.y} L${br.x}, ${br.y} L${tr.x}, ${tr.y}z`;
+    }
     // trapezoid: ({
     //     width,
     //     height,
