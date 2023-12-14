@@ -201,6 +201,7 @@ export default class Interaction {
     addMeditation({ name = 'meditation', defaultMeditation, placement = 'top', onChange }: TInteractionMeditation) {
         this.removeMeditation();
         const svg = this.element.querySelector('svg');
+        console.log(svg);
         if (!svg) return;
 
         const circle = createSVGElement('circle');
@@ -210,7 +211,7 @@ export default class Interaction {
         const cy = isHorizontal ? (placement === 'top' ? '0' : '100%') : defaultMeditation.toString();
         const shape = this.element.querySelector('path');
 
-        let meditation = 0;
+        let meditation = defaultMeditation;
 
         applyAttributeNS(circle, { cx, cy, r: '5', fill: 'red' });
 

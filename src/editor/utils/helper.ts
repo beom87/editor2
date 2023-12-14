@@ -1,4 +1,4 @@
-import { degreeToRadian, radianToDegree } from './number';
+import { degreeToRadian } from './number';
 import { generateCharacter } from './string';
 
 /** element.style px을 number로 변환하는 함수 */
@@ -51,8 +51,8 @@ export const getPathOf = {
     // },
     parallelogram: ({ width, height, padding = 0.5, meditation }: TGetPathOf & { meditation: number }) => {
         const tl = { x: meditation + padding, y: padding };
-        const bl = { x: padding, y: height - 2 - padding };
-        const br = { x: width - meditation - padding, y: height - 2 - padding };
+        const bl = { x: padding, y: height - padding };
+        const br = { x: width - meditation - padding, y: height - padding };
         const tr = { x: width - padding, y: padding };
 
         return `M${tl.x}, ${tl.y} L${bl.x}, ${bl.y} L${br.x}, ${br.y} L${tr.x}, ${tr.y}z`;

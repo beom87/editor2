@@ -35,7 +35,7 @@ export default class DMRect extends DMObject {
         entries.forEach((entry) => {
             const { width, height } = entry.contentRect;
             const target = this.querySelector('path');
-            target?.setAttributeNS(null, 'd', getPathOf.rect({ width, height, padding: 0.5 }));
+            target?.setAttributeNS(null, 'd', getPathOf.rect({ width, height }));
         });
     }
 }
