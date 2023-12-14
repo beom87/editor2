@@ -1,15 +1,19 @@
+import { applyStyle } from '../../utils/element';
 import DMObject from './object';
 
 export default class DMSprite extends DMObject {
     static __name = 'dm-sprite';
     __type = 'sprite';
 
-     __originWidth;
-     __originHeight;
-     __frameCount;
+    __originWidth;
+    __originHeight;
+    __frameCount;
 
     constructor(options: ISpriteOptions) {
         super(options?.id);
+
+        applyStyle(this, { ...options.style });
+
         this.__originWidth = Number(options?.originWidth || 0);
         this.__originHeight = Number(options?.originHeight || 0);
         this.__frameCount = Number(options?.frameCount || 1);
