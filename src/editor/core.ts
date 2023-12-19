@@ -54,10 +54,9 @@ export default class Editor {
         this.EE.emit('object:add');
     };
 
-    on = (name: TEventNames, fn: (data?: unknown) => void) => this.EE.on(name, fn);
+    on = <T = unknown>(name: TEventNames, fn: (data?: T) => void) => this.EE.on(name, fn);
     off = (name: TEventNames, fn: (data?: unknown) => void) => this.EE.off(name, fn);
-    getObjects = () =>
-        Array.from(this.canvas?.children ?? []).filter((element) => element instanceof DMObject) as DMObject[];
+    getObjects = () => Array.from(this.canvas?.children ?? []).filter((element) => element instanceof DMObject) as DMObject[];
     getEffects = () => {
         const children = this.getObjects();
         const effects = children.map((child) => child.__effect);

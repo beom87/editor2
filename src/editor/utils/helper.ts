@@ -76,13 +76,31 @@ export const getPathOf = {
 /** id 생성*/
 export const createId = () => generateCharacter();
 
-export const rotatePoint = (options: { x: number; y: number; cx: number; cy: number; degree: number }) => {
-    const { x, y, cx, cy, degree } = options;
-    const radians = -degreeToRadian(degree);
-    const cos = Math.cos(radians);
-    const sin = Math.sin(radians);
-    const rx = cos * (x - cx) + sin * (y - cy) + cx;
-    const ry = cos * (y - cy) - sin * (x - cx) + cy;
+/**
+ * 회전된 좌표의 포인트를 구하는 함수
+ * @param {Object} options
+ * @param options.point 회전 시키려는 좌표
+ * @param options.origin 회전의 중점 좌표
+ * @param options.degree 회전시키려는 각도
+ */
+export const rotatePoint = (options: { point: { x: number; y: number }; origin: { x: number; y: number }; degree: number }) => {
+    const { point, origin, degree } = options;
 
-    return { x: rx, y: ry };
+    const vector = { x: point.x - origin.x, y: point.y - origin.y };
+    const scale = { x: 1, y: 1 };
+    const translate = { x: origin.x, y: origin.y };
+    const radian = degreeToRadian(degree);
+
+    const domPoint = new DOMPoint(vector.x, vector.y);
+
+    const matrix = new DOMMatrix([
+        Math.cos(radian) * scale.x,
+        Math.sin(radian) * scale.x,
+        -Math.sin(radian) * scale.y,
+        Math.cos(radian) * scale.y,
+        translate.x,
+        translate.y
+    ]);
+
+    return domPoint.matrixTransform(matrix);
 };

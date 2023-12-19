@@ -1,3 +1,4 @@
+import { Divider } from '@mui/material';
 import Animation from './Animation';
 import Insert from './Insert';
 import Toolbar from './Toolbar';
@@ -9,6 +10,7 @@ function App() {
             <header>
                 <Toolbar />
             </header>
+            <Divider style={{ marginBlock: '8px' }} />
             <main className='flex gap-x-2'>
                 <Insert />
                 <View />

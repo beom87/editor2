@@ -14,8 +14,6 @@ export default class DMSprite extends DMObject {
     constructor(options: ISpriteOptions) {
         super(options?.id);
 
-        applyStyle(this, { ...options.style });
-
         this.__originWidth = Number(options?.originWidth || 0);
         this.__originHeight = Number(options?.originHeight || 0);
         this.__frameCount = Number(options?.frameCount || 1);
